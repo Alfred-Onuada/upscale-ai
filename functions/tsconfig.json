@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "module": "nodenext",
+    "module": "NodeNext",
+    "esModuleInterop": true,
+    "moduleResolution": "nodenext",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
-    "target": "esnext",
-    "moduleResolution": "nodenext"
+    "target": "ESNext",
+    "skipLibCheck": true
   },
   "compileOnSave": true,
   "include": [

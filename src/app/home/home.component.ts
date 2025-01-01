@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UpscaleWsService } from '../services/upscale-ws.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { UpscaleWsService } from '../services/upscale-ws.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   imagePreview = '';
   upscaledImagePreview = '';
 
@@ -19,9 +19,25 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private upscaleWsService: UpscaleWsService) {}
 
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {}
+  ngOnInit(): void {
+    this.upscaleWsService.pingServer().subscribe({
+      next: () => {
+        this.upscaleWsService.connectToWS().subscribe({
+          next: () => this.upscaleWsService.listenToUpscaleResult().subscribe({
+            next: (data) => {
+              this.upscaledImagePreview = data
+            },
+            error: (err) => this.showToast(err, true)
+          }),
+          error: (err) => this.showToast(err, true)
+        })
+      },
+      error: (err) => {
+        console.error(err)
+        this.showToast("Server is unhealthy", true)
+      }
+    })
+  }
 
   showToast(message: string, isError: boolean = false) {
     // Get the appropriate sample toast element
@@ -71,7 +87,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.imagePreview = e.target?.result as string;
 
         const base64 = this.imagePreview.split(",")[1]
-        this.upscaleWsService.sendMessage({image: base64})
+        this.upscaleWsService.upscaleImage(base64)
       };
 
       reader.readAsDataURL(file); // Convert file to data URL
