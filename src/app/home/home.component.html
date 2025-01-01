@@ -1,0 +1,57 @@
+<div class="space-y-3 absolute right-3 top-3" #toastContainer>
+  <div #toastSuccessSample class="hidden max-w-xs bg-gray-50 border border-gray-200 text-sm text-gray-600 rounded-lg" role="alert" tabindex="-1" aria-labelledby="hs-toast-soft-color-gray-label">
+    <div id="hs-toast-soft-color-gray-label" class="flex p-2">
+      <div class="ms-auto">
+        <button type="button" class="inline-flex shrink-0 justify-center items-center size-5 rounded-lg text-gray-800 opacity-50 hover:opacity-100 focus:outline-none focus:opacity-100" aria-label="Close">
+          <span class="sr-only">Close</span>
+          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div #toastErrorSample class="hidden max-w-xs bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg dark:bg-red-800/10 dark:text-red-500" role="alert" tabindex="-1" aria-labelledby="hs-toast-soft-color-red-label">
+    <div id="hs-toast-soft-color-red-label" class="flex p-2">
+      <div class="ms-auto">
+        <button type="button" class="inline-flex shrink-0 justify-center items-center size-5 rounded-lg text-red-800 opacity-50 hover:opacity-100 focus:outline-none focus:opacity-100 dark:text-red-200" aria-label="Close">
+          <span class="sr-only">Close</span>
+          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 h-[100vh]">
+  <div class="rounded-md border border-gray-700 p-10 flex flex-col justify-center items-center">
+    @if (imagePreview == "") {
+      <div>
+        <input type="file" id="fileInput" accept="image/*" hidden (change)="onFileSelected($event)">
+        <label for="fileInput" class="cursor-pointer">
+          <div class="flex flex-col items-center">
+            <div class="rounded-full bg-gray-500 border border-gray-700 w-fit p-5 mb-5">
+              <svg class="h-[85px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M448 80c8.8 0 16 7.2 16 16l0 319.8-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 112L48 416.3l0-.3L48 96c0-8.8 7.2-16 16-16l384 0zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/></svg>
+            </div>
+            <h4>Select an Image to Upscale</h4>
+          </div>
+        </label>
+      </div>
+    } @else {
+      <img [src]="imagePreview" alt="Image to Upscale" class="mb-5">
+    }
+  </div>
+  <div class="rounded-md border border-gray-700 p-10 flex flex-col justify-center items-center">
+    @if (upscaledImagePreview == "") {
+      <img src="sample.jpeg" alt="Sample Image" class="mb-5">
+    } @else {
+      <img [src]="upscaledImagePreview" alt="Upscaled Image" class="mb-5">
+      <a href="#"><h4>Download Image</h4></a>
+    }
+  </div>
+</div>
